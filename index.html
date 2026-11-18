@@ -225,13 +225,34 @@
         </div>
     </section>
 
-    <section id="visit">
+    <section class="section" id="hours">
         <div class="container">
-            <div class="section-head reveal">
-                <h2 class="section-title">Часы работы</h2>
-				<p class="section-sub">Мы работаем для вас ежедневно</p>
+            <h2 class="section-title">Часы работы</h2>
+            <p class="section-subtitle">Мы работаем для вас ежедневно</p>
+
+            <div class="hours-grid">
+                <article class="surface-card status-card">
+                    <div class="f-icon" id="statusIcon"><!-- иконка часов --></div>
+                    <h3 id="statusText">Открыто сейчас</h3>
+                    <div class="current-time" id="currentTime">14:32</div>
+                    <p class="text-muted">Без обедов и выходных</p>
+                </article>
+
+                <article class="surface-card schedule-card">
+                    <div class="schedule-row">
+                        <span>Пн — Пт</span>
+                        <span class="hours-time">09:00 — 20:00</span>
+                    </div>
+                    <div class="schedule-row">
+                        <span>Суббота</span>
+                        <span class="hours-time">09:00 — 18:00</span>
+                    </div>
+                    <div class="schedule-row">
+                        <span>Воскресенье</span>
+                        <span class="hours-time">10:00 — 16:00</span>
+                    </div>
+                </article>
             </div>
-            <div class="visit-grid" id="visitGrid"></div>
         </div>
     </section>
 
@@ -321,8 +342,9 @@
 				<span>Сайт-визитка: HTML + CSS + JavaScript</span>
 			</div>
         </div>
-     </footer>
+    </footer>
 
+    <script src="data.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
