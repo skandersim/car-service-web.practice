@@ -23,4 +23,27 @@ let rotation = 0,
 
 })()
 
+const storeGrid = $('#storeGrid');
 
+function renderStore(items) {
+    storeGrid.innerHTML = '';
+
+    items.forEach(function(item) {
+        const card = document.createElement('article');
+        card.className = 'product-card';
+        card.innerHTML = `
+            <div class="f-icon">${productIcons[item.icon]}</div>
+            <h3>${item.name}</h3>
+            <div class="product-subtitle">
+                <span class="product-unit">${item.unit}</span>
+                <div class="product-price">${money(item.price)}</div>
+            </div>
+            <button class="btn btn-primary">
+                ${item.inStock ? 'В наличии' : 'Нет в наличии'}
+            </button>
+        `;
+        storeGrid.append(card);
+    })
+}
+
+renderStore(shopItems);
