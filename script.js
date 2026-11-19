@@ -45,5 +45,21 @@ function renderStore(items) {
         storeGrid.append(card);
     })
 }
-
 renderStore(shopItems);
+
+const reviewCard = $('#reviewCard');
+let currentIndex = 0;
+function renderReview(reviews) {
+    const r = reviews[currentIndex];
+    reviewCard.innerHTML = "";
+    const review = 
+    `<div class="review-stars">${"★".repeat(r.rating)}</div>
+    <p class="review-text">«${r.text}»</p>
+    <div class="review-author">
+        <span style="text-align:left"><b>${r.name}</b><span class="review-car">${r.car}</span></span>
+    </div>`;
+
+    reviewCard.innerHTML = review;
+}
+
+renderReview(reviews)
