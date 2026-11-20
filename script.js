@@ -137,3 +137,30 @@ const observeSection = new IntersectionObserver((entries) => {
 }, {rootMargin: "-40% 0px -50% 0px"});
 
 sections.forEach((section) => {observeSection.observe(section)});
+
+function updateClock() {
+    const now = new Date();
+    const hours = now.getHours(),
+        minutes = now.getMinutes(),
+        day = now.getDay(),
+        open = HOURS[day].open,
+        close = HOURS[day].close;
+    
+    const currentTime = $('#currentTime');
+    currentTime.innerHTML = "";
+    currentTime.innerHTML = `${pad(hours)}:${pad(minutes)}`;
+
+    if (hours >= open && hours < close) {
+        $('#statusText').innerHTML = "Сейчас открыто.";
+        $('#heroStatus').innerHTML = `Открыто до ${close}.`;
+        $('#heroDot').innerHTML = '🟢';
+        $('#todayHoursText'). innerHTML = `Работаем до ${close}`;
+    } else {
+        $('#statusText').innerHTML = `Закрыто до ${open}.`;
+        $('#heroStatus').innerHTML = `Закрыто до ${open}.`;
+        $('#heroDot').innerHTML = '🔴';
+        $('#todayHoursText').innerHTML = `Закрыто до ${open}`;
+    }
+}
+updateClock();
+setInterval(updateClock, 1000 * 30);
