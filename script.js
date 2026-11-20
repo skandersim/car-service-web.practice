@@ -30,7 +30,7 @@ function renderStore(items) {
 
     items.forEach(function(item) {
         const card = document.createElement('article');
-        card.className = 'product-card';
+        card.className = 'product-card reveal';
         card.innerHTML = `
             <div class="f-icon">${productIcons[item.icon]}</div>
             <h3>${item.name}</h3>
@@ -47,19 +47,93 @@ function renderStore(items) {
 }
 renderStore(shopItems);
 
-const reviewCard = $('#reviewCard');
+const reviewCard = $('#reviewCard'), revDots = $("#revDots");
 let currentIndex = 0;
-function renderReview(reviews) {
-    const r = reviews[currentIndex];
+let revTimer = 0;
+
+revDots.innerHTML = reviews.map((_, i) => 
+    `<button class="r-dot" data-rev="${i}" aria-label="Отзыв ${i + 1}"></button>`
+).join("");
+
+function renderReview(i) {
+    revIndex = (i + reviews.length) % reviews.length;
+    const r = reviews[revIndex];
+    reviewCard.classList.remove("swap");
+    void reviewCard.offsetWidth;
+    reviewCard.classList.add("swap");
     reviewCard.innerHTML = "";
     const review = 
     `<div class="review-stars">${"★".repeat(r.rating)}</div>
     <p class="review-text">«${r.text}»</p>
     <div class="review-author">
-        <span style="text-align:left"><b>${r.name}</b><span class="review-car">${r.car}</span></span>
+        <b>${r.name}</b>
+        <span class="review-car">${r.car}</span>
     </div>`;
-
+    $$(".r-dot", revDots).forEach((d, j) => d.classList.toggle("active", j === revIndex));
     reviewCard.innerHTML = review;
+    currentIndex = revIndex;
 }
 
-renderReview(reviews)
+function revInterval() {
+    clearInterval(revTimer);
+    revTimer = setInterval(() => renderReview(currentIndex + 1), 5500);
+}
+
+$('#revPrev').addEventListener('click', () => {
+    renderReview(currentIndex - 1);
+    revTimer = revInterval;
+})
+$('#revNext').addEventListener('click', () => {
+    renderReview(currentIndex + 1);
+    revTimer = revInterval;
+})
+revDots.addEventListener("click", e => {
+    const d = e.target.closest("[data-rev]");
+    if (!d) return;
+    showReview(+d.dataset.rev);
+    revAuto();
+});
+
+renderReview(0)
+revInterval()
+
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('active');
+            observer.unobserve(entry.target);
+        }
+    })
+}, {threshold: 0.2});
+
+$$('.reveal').forEach((el) => {
+    observer.observe(el)
+});
+
+const navList = $('#navLinks');
+const pill = document.createElement('span');
+pill.className = 'nav-pill';
+navList.append(pill);
+
+function movePill(link) {
+    if (!link) return;
+    pill.style.left = link.parentElement.offsetLeft + 'px';
+    pill.style.top = link.offsetTop + 'px';
+    pill.style.width = link.offsetWidth + 'px';
+    pill.style.height = link.offsetHeight + 'px';
+}
+
+const sections = $$('section[id]'),
+    navLinks = $$('#navLinks a');
+const observeSection = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+            const id = entry.target.id;
+            navLinks.forEach((link) => {link.classList.toggle('active', link.getAttribute('href') === '#' + id)})
+            const activeLink = navLinks.find(l => l.classList.contains('active'));
+            movePill(activeLink);
+        };
+    });
+}, {rootMargin: "-40% 0px -50% 0px"});
+
+sections.forEach((section) => {observeSection.observe(section)});
