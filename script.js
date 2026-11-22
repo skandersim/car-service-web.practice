@@ -164,3 +164,29 @@ function updateClock() {
 }
 updateClock();
 setInterval(updateClock, 1000 * 30);
+
+function openModal(modal) {
+    $(modal).classList.add('show');
+    document.body.style.overflow = "hidden";
+}
+
+function closeModal() {
+    $$('.modal').forEach(m => m.classList.remove('show'));
+    document.body.style.overflow = "";
+}
+
+$$('#record').forEach((btn) => {
+    btn.addEventListener('click', () => {
+        openModal('#recordModal')
+    })
+})
+$$('.close-x').forEach((btn) => {
+    btn.addEventListener('click', () => {
+        closeModal()
+    })
+})
+$$('.modal-bg').forEach((btn) => {
+    btn.addEventListener('click', () => {
+        closeModal()
+    })
+})
