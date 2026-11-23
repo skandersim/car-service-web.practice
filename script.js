@@ -168,25 +168,72 @@ setInterval(updateClock, 1000 * 30);
 function openModal(modal) {
     $(modal).classList.add('show');
     document.body.style.overflow = "hidden";
-}
+};
 
 function closeModal() {
     $$('.modal').forEach(m => m.classList.remove('show'));
     document.body.style.overflow = "";
-}
+};
 
 $$('#record').forEach((btn) => {
     btn.addEventListener('click', () => {
         openModal('#recordModal')
-    })
-})
+    });
+});
 $$('.close-x').forEach((btn) => {
     btn.addEventListener('click', () => {
         closeModal()
-    })
-})
-$$('.modal-bg').forEach((btn) => {
+    });
+});
+$$('[data-close]').forEach((btn) => {
+    btn.addEventListener('click', closeModal);
+});
+
+const customSelect = $('.custom-select');
+$('.custom-select-trigger').addEventListener('click', () => {
+    customSelect.classList.toggle('open');
+});
+$$('.servis-option').forEach((btn) => {
     btn.addEventListener('click', () => {
-        closeModal()
-    })
-})
+        $('input[name="servis"]').value = btn.dataset.value;
+        $('.custom-select-value').textContent = btn.textContent;
+        customSelect.classList.remove('open');
+    });
+});
+
+const ima = $('#name'),
+    phone = $('#phone'),
+    date = $('#date'),
+    time = $('#time');
+$('#recordForm').addEventListener('submit', (event) => {
+    event.preventDefault();
+    let ok = true;
+    const today = new Date().toISOString().split('T')[0];
+    $$('.form').forEach(f => f.classList.remove('field'));
+    if (ima.value.trim().length < 2) {
+        ima.closest('.form').classList.add('field');
+        ok = false;
+    } if (phone.value.replace(/\D/g, '').length < 10) {
+        phone.closest('.form').classList.add('field');
+        ok = false;
+    } if (!date.value || date.value < today) {
+        date.closest('.form').classList.add('field');
+        ok = false;
+    } if (!time.value) {
+        time.closest('.form').classList.add('field');
+        ok = false;
+    } if (!ok) return;
+    closeModal();
+    openModal('#successModal');
+    event.target.reset();
+});
+
+$('#year').textContent = new Date().getFullYear();
+
+$('#copyAddress').addEventListener('click', () => {
+    navigator.clipboard.writeText($('#addressText').textContent);
+    $('#copyAddress').textContent = 'Скопировано!';
+    setTimeout(() => {
+        $('#copyAddress').textContent = 'Копировать';
+    }, 2000);
+});
