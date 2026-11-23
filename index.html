@@ -409,11 +409,23 @@
             <form id="recordForm">
                 <div class="form">
                     <label>Имя</label>
-                    <input type="text" placeholder="Ваше имя" required>
+                    <input type="text" id="name" placeholder="Ваше имя">
+                    <span class="err-msg">Пожалуйста, укажите имя (минимум 2 буквы)</span>
                 </div>
                 <div class="form">
                     <label>Телефон</label>
-                    <input type="tel" placeholder="+7 (___) ___-__-__" required>
+                    <input type="tel" id="phone" placeholder="+7 (___) ___-__-__">
+                    <span class="err-msg">Введите телефон — минимум 10 цифр</span>
+                </div>
+                <div class="form">
+                    <label>Дата</label>
+                    <input type="date" id="date">
+                    <span class="err-msg">Выберите дату не раньше сегодняшней</span>
+                </div>
+                <div class="form">
+                    <label>Время</label>
+                    <input type="time" id="time">
+                    <span class="err-msg">В это время мы не работаем</span>
                 </div>
                 <div class="form">
                     <label>Услуга</label>
@@ -445,10 +457,17 @@
         <div class="modal-bg" data-close></div>
 		<div class="modal-box">
             <button class="close-x" data-close aria-label="Закрыть">✕</button>
+            <div style="margin-bottom: 16px;">
+                <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"/>
+                    <path d="m9 12 2 2 4-4"/>
+                </svg>
+            </div>
             <div class="modal-header">
                 <h2>Запись успешно оформлена!</h2>
                 <p>Скоро свяжемся с вами, и позвоним в назваченный день за 1 час.</p>
             </div>
+            <button class="btn btn-primary" data-close>Отлично</button>
         </div>
      </div>
 
