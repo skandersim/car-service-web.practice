@@ -21,6 +21,10 @@ def create_record(data: RecordCreate):
 
 @app.get("/")
 def main():
-    return FileResponse("index.html")
+    return FileResponse("templates/index.html")
+
+@app.get("/admin")
+def admin():
+    return FileResponse("templates/admin.html")
 
 app.mount("/", StaticFiles(directory="."), name="static")
