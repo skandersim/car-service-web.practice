@@ -205,7 +205,7 @@ const ima = $('#name'),
     phone = $('#phone'),
     date = $('#date'),
     time = $('#time');
-$('#recordForm').addEventListener('submit', (event) => {
+$('#recordForm').addEventListener('submit', async (event) => {
     event.preventDefault();
     let ok = true;
     const today = new Date().toISOString().split('T')[0];
@@ -223,6 +223,25 @@ $('#recordForm').addEventListener('submit', (event) => {
         time.closest('.form').classList.add('field');
         ok = false;
     } if (!ok) return;
+
+    const record = {name: ima.value,
+        phone: phone.value,
+        date: date.value,
+        time: time.value,
+        servis: $('input[name="servis"]').value || 'Не выбрано'
+    };
+
+    const res = await fetch("/api/records", {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(record)});
+
+    if (res.ok) {
+        closeModal();
+        openModal('#successModal');
+        event.target.reset();
+    }
+
     closeModal();
     openModal('#successModal');
     event.target.reset();
