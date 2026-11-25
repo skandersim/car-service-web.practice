@@ -262,3 +262,5 @@ input:focus, .custom-select-trigger:focus {outline: none; border: 2px solid var(
 .admin-table th,
 .admin-table td {padding: 14px 16px; text-align: left; border-bottom: 1px solid var(--border);}
 .admin-table th {color: var(--text-muted); font-size: 0.85rem; font-weight: 500;}
+.admin-price {background-color: var(--bg); border: 1px solid var(--border); color: var(--text-main); width: 130px; height: 60px; padding: 6px 10px; border-radius: 14px; opacity: 0.8;}
+.admin-status {position: relative; width: 140px;}
