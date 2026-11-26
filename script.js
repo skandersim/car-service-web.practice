@@ -142,15 +142,17 @@ function updateClock() {
     const now = new Date();
     const hours = now.getHours(),
         minutes = now.getMinutes(),
-        day = now.getDay(),
-        open = HOURS[day].open,
-        close = HOURS[day].close;
+        day = now.getDay();
+    const open = HOURS[day].open,
+      close = HOURS[day].close,
+      openH = parseInt(open),
+      closeH = parseInt(close);
     
     const currentTime = $('#currentTime');
     currentTime.innerHTML = "";
     currentTime.innerHTML = `${pad(hours)}:${pad(minutes)}`;
 
-    if (hours >= open && hours < close) {
+    if (hours >= openH && hours < closeH) {
         $('#statusText').innerHTML = "Сейчас открыто.";
         $('#heroStatus').innerHTML = `Открыто до ${close}.`;
         $('#heroDot').innerHTML = '🟢';
@@ -255,4 +257,26 @@ $('#copyAddress').addEventListener('click', () => {
     setTimeout(() => {
         $('#copyAddress').textContent = 'Копировать';
     }, 2000);
+});
+
+// переключене темы
+const themeToggle = $('#themeToggle');
+function applyTheme(t) {
+    document.documentElement.dataset.theme = t;
+    themeToggle.innerHTML = t === 'dark' ? `
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="4"/>
+            <path d="M12 2v2"/><path d="M12 20v2"/>
+        <path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/>
+        <path d="M2 12h2"/><path d="M20 12h2"/>
+        <path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>
+    </svg>`
+    : `
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
+        </svg>`
+}
+themeToggle.addEventListener("click", () => {
+    const next = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+    applyTheme(next);
 });
