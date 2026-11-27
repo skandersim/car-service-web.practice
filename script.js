@@ -111,17 +111,6 @@ $$('.reveal').forEach((el) => {
 });
 
 const navList = $('#navLinks');
-const pill = document.createElement('span');
-pill.className = 'nav-pill';
-navList.append(pill);
-
-function movePill(link) {
-    if (!link) return;
-    pill.style.left = link.parentElement.offsetLeft + 'px';
-    pill.style.top = link.offsetTop + 'px';
-    pill.style.width = link.offsetWidth + 'px';
-    pill.style.height = link.offsetHeight + 'px';
-}
 
 const sections = $$('section[id]'),
     navLinks = $$('#navLinks a');
@@ -130,8 +119,6 @@ const observeSection = new IntersectionObserver((entries) => {
         if (entry.isIntersecting) {
             const id = entry.target.id;
             navLinks.forEach((link) => {link.classList.toggle('active', link.getAttribute('href') === '#' + id)})
-            const activeLink = navLinks.find(l => l.classList.contains('active'));
-            movePill(activeLink);
         };
     });
 }, {rootMargin: "-40% 0px -50% 0px"});
@@ -279,4 +266,17 @@ function applyTheme(t) {
 themeToggle.addEventListener("click", () => {
     const next = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
     applyTheme(next);
+});
+
+const burger = $('.burger'), nav = $('nav');
+burger.addEventListener('click', () => {
+    burger.classList.toggle('open');
+    nav.classList.toggle('open');
+});
+
+document.addEventListener('click', (e) => {
+    if (!nav.contains(e.target) && !burger.contains(e.target) || e.target.closest('a')) {
+        burger.classList.remove('open');
+        nav.classList.remove('open');
+    }
 });
